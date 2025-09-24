@@ -13,10 +13,10 @@ function isAuthenticated(req, res, next) {
 
 router.post('/', isAuthenticated, async (req, res) => {
     try {
-        const { sessionName, studyMins, breakMins, numCycles } = req.body;
+        const { sessionName, studyMins, breakMins, numCycles, shouldRepeat} = req.body;
         const newSession = await Session.create({
             userId: req.session.userId,
-            sessionName, studyMins, breakMins, numCycles
+            sessionName, studyMins, breakMins, numCycles, shouldRepeat
         });
         res.status(201).json(newSession);
     } catch (err) {
@@ -40,6 +40,41 @@ router.patch('/:id/start', isAuthenticated, async (req, res) => {
         const session = await Session.findOneAndUpdate(
             { _id: req.params.id, userId: req.session.userId },
             { status: 'active' }, // or your field (e.g., isStarted, etc.)
+            { new: true }
+        );
+        if (!session) {
+            return res.status(404).json({ error: 'Session not found' });
+        }
+        res.json(session);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+
+//PATCH change the status of a session to cancelled
+router.patch('/:id/cancel', isAuthenticated, async (req, res) => {
+    try {
+        const session = await Session.findOneAndUpdate(
+            { _id: req.params.id, userId: req.session.userId },
+            { status: 'cancelled' }, // or your field (e.g., isStarted, etc.)
+            { new: true }
+        );
+        if (!session) {
+            return res.status(404).json({ error: 'Session not found' });
+        }
+        res.json(session);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+//PATCH change the status of a session to completed
+router.patch('/:id/completed', isAuthenticated, async (req, res) => {
+    try {
+        const session = await Session.findOneAndUpdate(
+            { _id: req.params.id, userId: req.session.userId },
+            { status: 'completed' }, // or your field (e.g., isStarted, etc.)
             { new: true }
         );
         if (!session) {

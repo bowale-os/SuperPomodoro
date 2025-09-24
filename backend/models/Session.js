@@ -6,7 +6,12 @@ const sessionSchema = new mongoose.Schema({
   studyMins: {type: Number, required:true},
   breakMins: {type: Number, required:true},
   numCycles: {type:Number, required:true},
-  isCompleted: {type:Boolean, default:false, required:true}
+  shouldRepeat: {type: Boolean, required:true},
+  status: {
+    type: String, 
+    enum: ['pending', 'active', 'completed', 'cancelled'],
+    default: 'pending'
+  }
 });
     
     

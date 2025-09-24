@@ -30,7 +30,8 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/breakideas', breakIdeasRoutes);
 app.use('/api/profile', profileRoutes);
-
+// Serve everything inside "public" at root URL ("/")
+app.use(express.static(path.join(__dirname, 'public')));
 connectDB();
 
 
