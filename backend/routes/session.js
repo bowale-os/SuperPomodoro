@@ -70,7 +70,7 @@ router.patch('/:id/cancel', isAuthenticated, async (req, res) => {
 });
 
 //PATCH change the status of a session to completed
-router.patch('/:id/completed', isAuthenticated, async (req, res) => {
+router.patch('/:id/complete', isAuthenticated, async (req, res) => {
     try {
         const session = await Session.findOneAndUpdate(
             { _id: req.params.id, userId: req.session.userId },
