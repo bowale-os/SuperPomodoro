@@ -629,29 +629,11 @@ transform: translateY(-1px);
                     </div>
                     <div class="form-group">
                         <label for="studyMinutes">Study Minutes</label>
-                        <select id="studyMins" name="studyMinutes" required>
-                            <option value="5">5 minutes</option>
-                            <option value="10">10 minutes</option>
-                            <option value="15">15 minutes</option>
-                            <option value="20">20 minutes</option>
-                            <option value="25" selected>25 minutes</option>
-                            <option value="30">30 minutes</option>
-                            <option value="45">45 minutes</option>
-                            <option value="60">1 hour</option>
-                            <option value="90">1.5 hours</option>
-                            <option value="120">2 hours</option>
-                        </select>
+                        <input id="studyMins" name="studyMinutes" type="number" min="1"required>
                     </div>
                     <div class="form-group">
                         <label for="breakMinutes">Break Minutes</label>
-                        <select id="breakMins" name="breakMinutes" required>
-                            <option value="5" selected>5 minutes</option>
-                            <option value="10">10 minutes</option>
-                            <option value="15">15 minutes</option>
-                            <option value="20">20 minutes</option>
-                            <option value="25">25 minutes</option>
-                            <option value="30">30 minutes</option>
-                        </select>
+                        <input id="breakMins" name="breakMinutes" type="number" min="1"required>
                     </div>
                     <div class="form-group">
                         <label for="numCycles">Number of cycles:</label>
@@ -664,10 +646,14 @@ transform: translateY(-1px);
                     </div>
                     <div class="form-group">
                         <label for="shouldRepeat">Should this session repeat?</label>
-                        <select id="shouldRepeat" name="shouldRepeat" required>
+                         <select id="shouldRepeat" name="shouldRepeat" required>
                             <option value="yes" selected>Yes</option>
                             <option value="no">No</option>
                         </select>
+                    </div>
+                    <div class="form-group" id="longBreakGroup">
+                        <label for="longBreakMins">How long should the long break last</label>
+                        <input id="longBreakMins" name="longBreakMinutes" type="number" min="1">
                     </div>
                 </form>
             </div>
@@ -679,6 +665,8 @@ transform: translateY(-1px);
         </div>
     </div>
 
-    <script src="/js/dashboard.js"></script>
+    <script src="/js/dashboard.js">
+        
+    </script>
 </body>
 </html>

@@ -13,10 +13,10 @@ function isAuthenticated(req, res, next) {
 
 router.post('/', isAuthenticated, async (req, res) => {
     try {
-        const { sessionName, studyMins, breakMins, numCycles, shouldRepeat} = req.body;
+        const { sessionName, studyMins, breakMins, numCycles, shouldRepeat, longBreakMins} = req.body;
         const newSession = await Session.create({
             userId: req.session.userId,
-            sessionName, studyMins, breakMins, numCycles, shouldRepeat
+            sessionName, studyMins, breakMins, numCycles, shouldRepeat, longBreakMins
         });
         res.status(201).json(newSession);
     } catch (err) {

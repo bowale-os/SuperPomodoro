@@ -11,7 +11,8 @@ const sessionSchema = new mongoose.Schema({
     type: String, 
     enum: ['pending', 'active', 'completed', 'cancelled'],
     default: 'pending'
-  }
+  },
+  longBreakMins: {type:Number}
 });
     
     
