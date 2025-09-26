@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000
 app.use(cors({
     origin: [
         `http://localhost:${PORT}`, // Development
-        'https://superpomodoro.netlify.app' // Production Netlify domain
+        'https://superpomodoro.onrender.com' // Production Netlify domain
     ],
     credentials: true
 }));
