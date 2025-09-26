@@ -22,9 +22,10 @@ router.get('/', isAuthenticated, async (req, res) => {
 
 
 // PUT /api/profile
-router.put('/', isAuthenticated, async (req, res) => {
+router.patch('/', isAuthenticated, async (req, res) => {
   try {
     const updates = req.body; // { displayName, goal, etc. }
+    console.log(updates);
     const user = await User.findByIdAndUpdate(
       req.session.userId,
       updates,

@@ -33,36 +33,36 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/breakideas', breakIdeasRoutes);
 app.use('/api/profile', profileRoutes);
-// Serve everything inside "public" at root URL ("/")
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve everything inside "frontend/public" at root URL ("/")
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 connectDB();
 
-
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/index.html'));
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/login.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/login.html'));
 });
 
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/register.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/register.html'));
 });
 
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/dashboard.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/dashboard.html'));
 });
 
 app.get('/profile', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/profile.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/profile.html'));
 });
 
 app.get('/stats', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/html/stats.html'));
+  res.sendFile(path.join(__dirname, '../frontend/public/html/stats.html'));
 });
 
-
-
-const serverless = require('serverless-http');
-module.exports = serverless(app);
+// Start the server for local development
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Visit http://localhost:${PORT} to view the application`);
+});

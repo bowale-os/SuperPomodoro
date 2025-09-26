@@ -11,6 +11,22 @@ window.addEventListener('load', async function() {
         return;
     }
 
+    let userInfo = {};
+        try {
+            const response = await fetch('/api/profile', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            userInfo = await response.json();
+            console.log(`userinfo is,`, userInfo);
+        } catch (err) {
+            console.error('Error fetching profile info:', err);
+        }
+
+        document.getElementById('studyMins').value = userInfo.defaultStudyMins || 25;
+        document.getElementById('breakMins').value = userInfo.defaultBreakMins || 5;
+        document.getElementById('longBreakMins').value = userInfo.longBreakMins || 15;
+
     // Retrieve active session from local storage
     const sessionRaw = sessionStorage.getItem('currentSession');
     const currentSession = sessionRaw ? JSON.parse(sessionRaw) : null;
