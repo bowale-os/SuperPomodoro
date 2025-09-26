@@ -1,8 +1,8 @@
 {
-  "name": "metasophy-study-buddy",
+  "name": "SuperPomodoro",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
@@ -18,8 +18,7 @@
     "express": "^5.1.0",
     "express-session": "^1.18.2",
     "mongodb": "^6.20.0",
-    "mongoose": "^8.18.1",
-    "serverless-http": "^4.0.0"
+    "mongoose": "^8.18.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

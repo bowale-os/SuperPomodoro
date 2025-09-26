@@ -61,8 +61,10 @@ app.get('/stats', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/html/stats.html'));
 });
 
-// Start the server for local development
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT} to view the application`);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(`Visit http://localhost:${PORT} to view the application`);
+  }
 });
