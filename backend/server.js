@@ -15,7 +15,10 @@ const PORT = process.env.PORT || 5000
 
 //Middleware
 app.use(cors({
-    origin: `http://localhost:${PORT}`, //frontend origin - same as server port
+    origin: [
+        `http://localhost:${PORT}`, // Development
+        'https://superpomodoro.netlify.app' // Production Netlify domain
+    ],
     credentials: true
 }));
 app.use(express.json());
