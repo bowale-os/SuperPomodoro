@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Metasophy Study Buddy</title>
+    <title>Profile - SuperPomodoro</title>
     <style>
         * {
             margin: 0;
@@ -282,8 +282,18 @@
         document.getElementById('defaultBreakMins').value = userInfo.defaultBreakMins || 5;
         document.getElementById('longBreakMins').value = userInfo.longBreakMins || 15;
 
-        // Stats (optional, for stats section)
-        // If stats are part of userInfo, you could dynamically fill .stat-value/.stat-label if needed.
+        // Sessions completed or cancelled - show session history
+        let sessionHistory = [];
+        try {
+            const sessionsResponse = await fetch('/api/sessions', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            sessionHistory = await sessionsResponse.json();
+            renderSessionHistory(sessionHistory);
+        } catch (err) {
+            console.error('Error fetching session history:', err);
+        }
 });
     async function updateUserInfo(idName) {
         const form = document.getElementById(idName);
@@ -312,6 +322,48 @@
             console.error('Error fetching profile info:', err);
         }
 
+    }
+
+    // Render the session history into the stats card area
+    function renderSessionHistory(sessions) {
+        const container = document.getElementById('session-history');
+        if (!container) return;
+
+        if (!Array.isArray(sessions) || sessions.length === 0) {
+            container.innerHTML = `
+                <div class="stat-item" style="grid-column: 1 / -1;">
+                    <div class="stat-value" style="font-size:1.2rem;color:#6c757d;">No session history yet</div>
+                    <div class="stat-label">Completed or cancelled sessions will appear here</div>
+                </div>
+            `;
+            return;
+        }
+
+        const itemHtml = sessions.map(s => {
+            const repeatLabel = s.shouldRepeat ? ` • Long Break: ${s.longBreakMins || 0}m` : '';
+            const statusColor = s.status === 'completed' ? '#28a745' : (s.status === 'cancelled' ? '#dc3545' : '#6c757d');
+            return `
+                <div class="stat-item" style="text-align:left;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                        <div class="stat-value" style="font-size:1.1rem;color:#333;">${escapeHtml(s.sessionName || 'Untitled Session')}</div>
+                        <span style="padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;color:#fff;background:${statusColor};text-transform:capitalize;">${s.status}</span>
+                    </div>
+                    <div class="stat-label" style="font-size:0.95rem;">Study: ${s.studyMins}m • Break: ${s.breakMins}m • Cycles: ${s.numCycles}${repeatLabel}</div>
+                </div>
+            `;
+        }).join('');
+
+        container.innerHTML = itemHtml;
+    }
+
+    // Simple HTML escaper for user-provided names
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
     </script>
 </head>
@@ -358,25 +410,8 @@
             </div>
 
             <div class="profile-card">
-                <h3>Study Statistics</h3>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-value">127</div>
-                        <div class="stat-label">Sessions Completed</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">52h</div>
-                        <div class="stat-label">Total Study Time</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">7</div>
-                        <div class="stat-label">Day Streak</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">89%</div>
-                        <div class="stat-label">Focus Rate</div>
-                    </div>
-                </div>
+                <h3>Session History</h3>
+                <div class="stats-grid" id="session-history"></div>
             </div>
 
             <div class="profile-card">

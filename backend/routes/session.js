@@ -24,10 +24,13 @@ router.post('/', isAuthenticated, async (req, res) => {
     }
 });
 
-//GET - api/sessions - Create all sessions for a user
+//GET - api/sessions - Get all completed or cancelled sessions for a user
 router.get('/', isAuthenticated, async(req, res) => {
     try {
-        const sessions = await Session.findOne({ userId: req.session.userId }).sort({ startTime: -1 });
+        const sessions = await Session.find({ 
+            userId: req.session.userId,
+            status: { $in: ['completed', 'cancelled'] }
+        }).sort({ createdAt: -1 });
         res.json(sessions);
     } catch (err) {
         res.status(500).json({ error: err.message });

@@ -86,7 +86,7 @@ async function StartSession() {
     const currentSession = sessionRaw ? JSON.parse(sessionRaw) : null;
 
     // API call: mark session as started
-    const response = await fetch(`api/sessions/${currentSession._id}/start`, {
+    const response = await fetch(`/api/sessions/${currentSession._id}/start`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' }
     });
@@ -140,7 +140,7 @@ async function executeSessionPlan(sessionPlan) {
         } else {
             // Session finished: patch as completed
             try {
-                const response = await fetch(`api/sessions/${currentSession._id}/complete`, {
+                const response = await fetch(`/api/sessions/${currentSession._id}/complete`, {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -154,7 +154,7 @@ async function executeSessionPlan(sessionPlan) {
                     console.error('Failed to store session as completed:', error);
                 }
             } catch (err) {
-                console.error('Network or code error:', error);
+                console.error('Network or code error:', err);
             }
         }
     }
@@ -218,7 +218,7 @@ function dismissSavedSession(){
 
 // Helper: Get a break idea from backend
 async function getBreakIdea() {
-    const response = await fetch(`api/breakideas/`, {
+    const response = await fetch(`/api/breakideas/`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     });
@@ -243,7 +243,7 @@ async function displayCountdown(segment, onComplete, nextSegment) {
 
     // Helper: API call to stop session
     async function stopTimer() {
-        const response = await fetch(`api/sessions/${currentSession._id}/cancel`, {
+        const response = await fetch(`/api/sessions/${currentSession._id}/cancel`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' }
         });
