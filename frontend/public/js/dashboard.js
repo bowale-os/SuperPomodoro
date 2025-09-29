@@ -281,10 +281,12 @@ async function displayCountdown(segment, onComplete, nextSegment) {
                 Next: <b>${nextSegment.type}</b> – ${nextSegment.minutes} min
             </div>` : '';
 
+        const timeMarkup = `${minutes}:${seconds.toString().padStart(2, '0')}`;
         countdownDisplay.innerHTML = `
-            <div style="font-size:2.6rem;margin-bottom:10px">${segment.type}: ${minutes}:${seconds.toString().padStart(2, '0')}</div>
-            <div style="margin-top:14px">
-                <button onclick="window._stopCountdown && window._stopCountdown()" class="control-btn" style="margin-right:8px;">Stop</button>
+            <div style="font-size:1.1rem;color:#64748b;margin-bottom:6px">${segment.type}</div>
+            <div class="countdown-display font-nunito">${timeMarkup}</div>
+            <div class="controls">
+                <button onclick="window._stopCountdown && window._stopCountdown()" class="control-btn">Stop</button>
                 <button onclick="window._skipCountdown && window._skipCountdown()" class="control-btn primary">Skip</button>
             </div>
             ${nextHtml}
