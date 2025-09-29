@@ -170,18 +170,18 @@ font-weight: 500;
 
 /* Countdown Display */
 .countdown-display {
-font-family: 'Nunito', sans-serif;
-font-size: 7.5rem;
-font-weight: 800;
-font-variant-numeric: tabular-nums;
-color: #1e293b;
-transition: all 0.3s ease;
-line-height: 1;
-margin-top: 1rem;
-margin-bottom: 1.25rem;
-text-align: center;
-text-shadow: 0 6px 24px rgba(102, 126, 234, 0.18);
-letter-spacing: -3px;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 900;
+    font-variant-numeric: tabular-nums;
+    color: #0f172a;
+    transition: text-shadow 0.25s ease, transform 0.2s ease;
+    line-height: 1;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-shadow: 0 18px 36px rgba(59, 130, 246, 0.25);
+    letter-spacing: -0.06em;
 }
 
 .countdown-display.running {
@@ -215,51 +215,60 @@ letter-spacing: -1px;
 
 /* Controls */
 .controls {
-display: flex;
-gap: 16px;
-justify-content: center;
-align-items: center;
-margin: 12px 0 32px 0;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0 28px 0;
+    flex-wrap: wrap;
 }
 
 .control-btn {
-background: #ffffff;
-border: 2px solid #e9ecef;
-color: #334155;
-padding: 14px 28px;
-border-radius: 14px;
-cursor: pointer;
-font-size: 16px;
-font-weight: 600;
-transition: all 0.2s ease;
-min-width: 120px;
-box-shadow: 0 6px 16px rgba(2, 8, 23, 0.06);
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    color: #0f172a;
+    padding: 12px 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 700;
+    transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    min-width: 112px;
+    box-shadow: 0 8px 18px rgba(2, 8, 23, 0.06);
+    outline: none;
 }
 
 .control-btn:hover {
-background: #f8fafc;
-border-color: #667eea;
-color: #3b82f6;
-transform: translateY(-1px);
-box-shadow: 0 10px 24px rgba(59, 130, 246, 0.18);
+    background: #f8fafc;
+    border-color: #93c5fd;
+    color: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(59, 130, 246, 0.18);
 }
 
 .control-btn.primary {
-background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-border-color: transparent;
-color: white;
-box-shadow: 0 14px 28px rgba(59, 130, 246, 0.32);
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.28);
 }
 
 .control-btn.primary:hover {
-filter: brightness(1.05);
-transform: translateY(-1px);
+    filter: brightness(1.05);
+    transform: translateY(-1px);
 }
 
 .control-btn:disabled {
-opacity: 0.5;
-cursor: not-allowed;
-transform: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Focus-visible for accessibility */
+.control-btn:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, 0.45);
+    outline-offset: 2px;
 }
 
 /* Session Type Selector */
@@ -305,11 +314,19 @@ display: none;
 
 /* Empty State */
 .empty-state {
-display: flex;
-align-items: center;
-justify-content: center;
-height: 60vh;
-text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(2, 8, 23, 0.06);
+    padding: 32px;
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .empty-state-content {
