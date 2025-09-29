@@ -604,6 +604,45 @@ transform: translateY(-1px);
 .hidden{
     display: none;
 }
+
+/* Break Suggestion Styles */
+.break-suggestion {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(59, 130, 246, 0.1);
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 32px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1);
+    text-align: center;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.break-suggestion-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+.break-suggestion-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.break-suggestion-text {
+    font-size: 1rem;
+    color: #64748b;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.break-suggestion.hidden {
+    display: none;
+}
 </style>    
 </head>
 <body>
@@ -626,7 +665,13 @@ transform: translateY(-1px);
             </div>
         </div>
 
-        <div id="aside" class="aside"></div>
+        <div id="aside" class="aside">
+            <div id="break-suggestion" class="break-suggestion hidden">
+                <div class="break-suggestion-icon">💡</div>
+                <div class="break-suggestion-title">Break Suggestion</div>
+                <div class="break-suggestion-text" id="break-suggestion-text"></div>
+            </div>
+        </div>
 
         
 

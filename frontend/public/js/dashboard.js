@@ -237,9 +237,11 @@ async function displayCountdown(segment, onComplete, nextSegment) {
     // Get session and timer setup
     const sessionRaw = sessionStorage.getItem('currentSession');
     const currentSession = sessionRaw ? JSON.parse(sessionRaw) : null;
-    let time = segment.minutes * 60;
+    const duration = segment.minutes * 60 * 1000; // Convert to milliseconds
+    const startTime = Date.now();
     const countdownDisplay = document.getElementById('emptyState');
-    let timer;
+    let timerId;
+    let isRunning = true;
 
     // Helper: API call to stop session
     async function stopTimer() {
@@ -250,7 +252,8 @@ async function displayCountdown(segment, onComplete, nextSegment) {
         if (response.ok) {
             const result = await response.json();
             console.log('Session was cancelled:', result);
-            clearInterval(timer);
+            isRunning = false;
+            if (timerId) clearTimeout(timerId);
             countdownDisplay.innerHTML = `${segment.type} stopped!`;
         } else {
             const error = await response.json();
@@ -260,22 +263,30 @@ async function displayCountdown(segment, onComplete, nextSegment) {
 
     // Helper: skip to next segment
     function skipSegment() {
-        clearInterval(timer);
+        isRunning = false;
+        if (timerId) clearTimeout(timerId);
         if (typeof onComplete === 'function') onComplete();
     }
 
     // Render timer and controls UI
-    function render(breakIdea) {
+    function render(breakIdea, remainingTime) {
         // Display break suggestion if applicable
+        const breakSuggestion = document.getElementById('break-suggestion');
+        const breakSuggestionText = document.getElementById('break-suggestion-text');
+        
         if (segment.type === 'Break' || segment.type === 'Long Break') {
-            const aside = document.getElementById('aside');
-            aside.innerHTML = (breakIdea && breakIdea.suggestion) ? breakIdea.suggestion : '';
+            if (breakIdea && breakIdea.suggestion) {
+                breakSuggestionText.textContent = breakIdea.suggestion;
+                breakSuggestion.classList.remove('hidden');
+            } else {
+                breakSuggestion.classList.add('hidden');
+            }
         } else {
-            aside.innerHTML = ``;
+            breakSuggestion.classList.add('hidden');
         }
 
-        let minutes = Math.floor(time / 60);
-        let seconds = time % 60;
+        let minutes = Math.floor(remainingTime / 60);
+        let seconds = remainingTime % 60;
         let nextHtml = nextSegment ? `
             <div style="margin-top:16px;font-size:1.08rem;color:#667eea;">
                 Next: <b>${nextSegment.type}</b> – ${nextSegment.minutes} min
@@ -293,20 +304,32 @@ async function displayCountdown(segment, onComplete, nextSegment) {
         `;
     }
 
+    // Update timer using setTimeout approach
+    function updateTimer() {
+        if (!isRunning) return;
+        
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const remaining = Math.max(0, Math.floor((duration - elapsed) / 1000)); // Convert back to seconds
+        
+        render(breakIdea, remaining);
+        
+        if (remaining > 0) {
+            // Schedule next update
+            timerId = setTimeout(updateTimer, 1000);
+        } else {
+            // Timer completed
+            isRunning = false;
+            if (typeof onComplete === 'function') onComplete();
+        }
+    }
+
     // Expose segment control globally so UI can access them
     window._stopCountdown = stopTimer;
     window._skipCountdown = skipSegment;
 
-    // Initial render, then start timer interval for countdown
-    render(breakIdea);
-    timer = setInterval(() => {
-        time--;
-        render(breakIdea);
-        if (time < 0) {
-            clearInterval(timer);
-            if (typeof onComplete === 'function') onComplete();
-        }
-    }, 1000);
+    // Start the timer
+    updateTimer();
 }
 
 
